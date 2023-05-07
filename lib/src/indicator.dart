@@ -20,8 +20,8 @@ class PageViewDotIndicator extends StatefulWidget {
     Key? key,
     required this.currentItem,
     required this.count,
-    required this.unselectedColor,
-    required this.selectedColor,
+    required this.unselectedDecoration,
+    required this.selectedDecoration,
     this.size = const Size(12, 12),
     this.unselectedSize = const Size(12, 12),
     this.duration = const Duration(milliseconds: 150),
@@ -29,7 +29,6 @@ class PageViewDotIndicator extends StatefulWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 16),
     this.alignment = Alignment.center,
     this.fadeEdges = true,
-    this.boxShape = BoxShape.circle,
   })  : assert(
           currentItem >= 0 && currentItem < count,
           'Current item must be within the range of items. Make sure you are using 0-based indexing',
@@ -44,13 +43,13 @@ class PageViewDotIndicator extends StatefulWidget {
   /// the corresponding pageview).
   final int count;
 
-  /// The color applied to the dot when the dots' indexes are different from
+  /// The decoration applied to the dot when the dots' indexes are different from
   /// [currentItem].
-  final Color unselectedColor;
+  final BoxDecoration unselectedDecoration; 
 
-  /// The color applied to the dot when the dots' index is the same as
+  /// The decoration applied to the dot when the dots' index is the same as
   /// [currentItem].
-  final Color selectedColor;
+  final BoxDecoration selectedDecoration;
 
   /// The size of the dot corresponding to the [currentItem] or the default
   /// size of the dots when [unselectedSize] is null.
@@ -76,8 +75,6 @@ class PageViewDotIndicator extends StatefulWidget {
   /// If the edges should be faded or not.
   final bool fadeEdges;
 
-  /// The shape of the indicators.
-  final BoxShape boxShape;
 
   @override
   _PageViewDotIndicatorState createState() => _PageViewDotIndicatorState();
@@ -148,12 +145,9 @@ class _PageViewDotIndicatorState extends State<PageViewDotIndicator> {
             return AnimatedContainer(
               margin: widget.margin,
               duration: widget.duration,
-              decoration: BoxDecoration(
-                shape: widget.boxShape,
-                color: index == widget.currentItem
-                    ? widget.selectedColor
-                    : widget.unselectedColor,
-              ),
+              decoration: index == widget.currentItem
+                  ? widget.selectedDecoration
+                  : widget.unselectedDecoration,
               width: index == widget.currentItem
                   ? widget.size.width
                   : widget.unselectedSize.width,
